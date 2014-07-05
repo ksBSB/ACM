@@ -12,11 +12,11 @@ struct point {
 };
 double tx, ty;
 
-double dis(double x, double y) {
+inline double dis(double x, double y) {
 	return sqrt(x*x+y*y);
 }
 
-point find(double xi, double yi) {
+point findPos (double xi, double yi) {
 	int cx = (int)(xi/tx);
 	int cy = (int)(yi/ty);
 	if (cx&1) {
@@ -39,10 +39,35 @@ point find(double xi, double yi) {
 	return A;
 }
 
+point find (double xi, double yi) {
+	point ans;
+
+	if (xi > 0 && yi > 0) {
+		ans = findPos(xi, yi);
+	} else if (xi < 0 && yi < 0) {
+		ans = findPos(-xi, -yi);
+		ans.x = -ans.x;
+		ans.y = -ans.y;
+	} else if (xi < 0 && yi > 0) {
+		ans = findPos(-xi, yi);
+		ans.x = -ans.x;
+	} else {
+		ans = findPos(xi, -yi);
+		ans.y = -ans.y;
+	}
+	return ans;
+}
+
 double solve(point A, point B) {
 	int cx = (int)(fabs(A.x-B.x)/tx+0.5);
 	int cy = (int)(fabs(A.y-B.y)/ty+0.5);
+	if (cx >= cy)
+		return cx * sq3;
+	else
+		return (cx + (cy - cx) / 2.0) * sq3;
+	/*
 	return max(cx, cy) * sq3;
+		*/
 }
 
 int main () {
