@@ -28,7 +28,11 @@ int main () {
 
 		getNext ();
 
-		int ans = min (next[m], n);
+		while(n < next[m]) {
+			m = next[m];
+		}
+
+		int ans = next[m];
 		for (int i = 1; i <= ans; i++) printf("%c", s1[i]);
 		if (ans) printf(" ");
 		printf("%d\n", ans);
